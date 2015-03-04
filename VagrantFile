@@ -27,7 +27,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             server.vm.box_url  = serverSettings['box']['url'] if serverSettings['box']['url']
             server.vm.hostname = serverSettings['hostname']   if serverSettings['hostname']
 
-
+            # Server settings for vbguest
+            if serverSettings['vbguest']
+                server.vbguest.auto_update = serverSettings['vbguest']['auto_update']
+                server.vbguest.no_remote   = serverSettings['vbguest']['no_remote']
+                server.vbguest.auto_reboot = serverSettings['vbguest']['auto_reboot']
+            end
 
             # Server settings for hostmanager
             if vagrantSettings['hostmanager']

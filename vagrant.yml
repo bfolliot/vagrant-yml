@@ -10,3 +10,15 @@ servers:
       # url: 'https://atlas.hashicorp.com/ubuntu/trusty64'
     hostname: 'web.vagrant-yml.dev'
     aliases : 'www.web.vagrant-yml.dev test.web.vagrant-yml.dev'
+    vbguest:
+      auto_update: false
+      no_remote: false
+      auto_reboot: true
+  database:
+    box: 
+      name: 'ubuntu/trusty64'
+    hostname: 'mysql.vagrant-yml.dev'
+    vbguest:
+      auto_update: true
+      no_remote: false
+      auto_reboot: true
