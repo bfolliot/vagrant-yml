@@ -1,0 +1,12 @@
+global:
+  hostmanager:
+    manage_host: true
+    ignore_private_ip: false
+    include_offline: true
+servers:
+  Web:
+    box: 
+      name: 'ubuntu/trusty64'
+      # url: 'https://atlas.hashicorp.com/ubuntu/trusty64'
+    hostname: 'web.vagrant-yml.dev'
+    aliases : 'www.web.vagrant-yml.dev test.web.vagrant-yml.dev'

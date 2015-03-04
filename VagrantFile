@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# # vi: set ft=ruby :
+ 
+# Specify Vagrant API version
+VAGRANTFILE_API_VERSION = "2"
+ 
+# Require YAML module
+require 'yaml'
+ 
+# Read YAML file with box details
+vagrantSettings = YAML.load_file('vagrant.yml')
+ 
+# Create servers
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    # General settings for hostmanager
+    if vagrantSettings['hostmanager']
+        config.hostmanager.enabled           = true
+        config.hostmanager.manage_host       = vagrantSettings['hostmanager']['manage_host']
+        config.hostmanager.ignore_private_ip = vagrantSettings['hostmanager']['ignore_private_ip']
+        config.hostmanager.include_offline   = vagrantSettings['hostmanager']['include_offline']
+    end    
+
+    vagrantSettings['servers'].each do |serverName, serverSettings|
+        # Create server
+        config.vm.define serverName do |server|
+            server.vm.box      = serverSettings['box']['name']
+            server.vm.box_url  = serverSettings['box']['url'] if serverSettings['box']['url']
+            server.vm.hostname = serverSettings['hostname']   if serverSettings['hostname']
+
+
+
+            # Server settings for hostmanager
+            if vagrantSettings['hostmanager']
+                server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
+                server.vm.provision :hostmanager
+            end
+        end
+    end
+end 
