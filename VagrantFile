@@ -21,8 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end    
 
     vagrantSettings['servers'].each do |serverName, serverSettings|
-        # puts serverSettings['network']
-        # next
         # Create server
         config.vm.define serverName do |server|
             server.vm.box      = serverSettings['box']['name']
