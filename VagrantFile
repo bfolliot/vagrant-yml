@@ -1,6 +1,12 @@
 # -*- mode: ruby -*-
 # # vi: set ft=ruby :
- 
+
+#################### VAGRANT YML ####################
+# Project : https://github.com/bfolliot/vagrant-yml #
+# Author :  Bryan Folliot                           #
+##################################################### 
+
+
 # Specify Vagrant API version
 VAGRANTFILE_API_VERSION = "2"
 CONFIG_FILE             ='vagrant.yml'
