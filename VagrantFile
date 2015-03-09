@@ -65,11 +65,36 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 end
             end
 
+            # Server settings for synced_folder
+            if serverSettings['synced_folders']
+                serverSettings['synced_folders'].each do |name, synced_folder| 
+
+                    if name == "vagrant" && !synced_folder
+                        server.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+                    else
+                        if synced_folder['params']
+                            server.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path'], **synced_folder['params']
+                        else
+                            server.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path']
+                        end
+                    end                    
+                end
+            end
+
             # Server settings for vbguest
             if serverSettings['vbguest']
                 server.vbguest.auto_update = serverSettings['vbguest']['auto_update']
                 server.vbguest.no_remote   = serverSettings['vbguest']['no_remote']
                 server.vbguest.auto_reboot = serverSettings['vbguest']['auto_reboot']
+            end
+
+
+
+            # Server settings for provisioning
+            if serverSettings['provision']
+                serverSettings['provision'].each do |name, params|
+                    config.vm.provision name, **params
+                end
             end
 
             # Server settings for hostmanager

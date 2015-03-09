@@ -15,8 +15,8 @@ servers:
       no_remote: false
       auto_reboot: true
     network:
-      private: dhcp
-      public: dhcp
+      private: dhcp # or x.x.x.x
+      public: dhcp # or x.x.x.x
     virtualbox:
       name: MyWebServer
       gui: true
@@ -26,6 +26,30 @@ servers:
         modifyvm:
           --natdnshostresolver1: "on"
           --rtcuseutc: "on"
+    synced_folders:
+      vagrant: false
+      docroot:
+        host_path: 'srv'
+        guest_path: '/srv'
+        params:
+          :create: true
+          :type: nfs
+    provision:
+      shell:
+        :inline: "echo Hello, World"
+      # fabric:
+      #   :fabfile_path: ./fabfile.py
+      #   :tasks: 
+      #     - vagrant
+      #     - apache
+      # ansible:
+      #   inventory_path: "ansible/local"
+      #   playbook: "ansible/site.yml"
+      #   extra_vars:
+      #     development: true
+      #     uservar: "vagrant"
+      #   limit: "all"
+      #   verbose: "vvv"
   database:
     box: 
       name: 'ubuntu/trusty64'
