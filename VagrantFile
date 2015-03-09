@@ -3,13 +3,18 @@
  
 # Specify Vagrant API version
 VAGRANTFILE_API_VERSION = "2"
- 
+CONFIG_FILE             ='vagrant.yml'
+CONFIG_FILE_LOCAL       ='vagrant.local.yml'
 # Require YAML module
 require 'yaml'
  
 # Read YAML file with box details
-vagrantSettings = YAML.load_file('vagrant.yml')
- 
+vagrantSettings      = YAML.load_file(CONFIG_FILE)
+if Pathname(CONFIG_FILE_LOCAL).exist?
+    vagrantSettingsLocal = YAML.load_file(CONFIG_FILE_LOCAL)
+    vagrantSettings.deep_merge!(vagrantSettingsLocal)
+end
+
 # Create servers
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # General settings for hostmanager
