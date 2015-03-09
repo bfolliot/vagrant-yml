@@ -1,0 +1,9 @@
+servers:
+  Web:
+    virtualbox:
+      name: MyWebServerLocal
+  sandbox:
+    box:
+      name: 'ubuntu/trusty32'
+    virtualbox:
+      name: MySandBox
