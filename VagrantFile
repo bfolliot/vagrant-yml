@@ -44,7 +44,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                     if serverSettings['network']['private'] == 'dhcp'
                         server.vm.network :private_network, type: "dhcp"
                     else
-                        puts serverSettings['network']['private']
                         server.vm.network :private_network, ip: serverSettings['network']['private']
                     end
                 end
