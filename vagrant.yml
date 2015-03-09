@@ -14,6 +14,18 @@ servers:
       auto_update: false
       no_remote: false
       auto_reboot: true
+    network:
+      private: dhcp
+      public: dhcp
+    virtualbox:
+      name: MyWebServer
+      gui: true
+      memory: 1024
+      cpu: 2
+      other:  # See http://www.virtualbox.org/manual/ch08.html
+        modifyvm:
+          --natdnshostresolver1: "on"
+          --rtcuseutc: "on"
   database:
     box: 
       name: 'ubuntu/trusty64'
@@ -22,3 +34,6 @@ servers:
       auto_update: true
       no_remote: false
       auto_reboot: true
+  sandbox:
+    box:
+      name: 'ubuntu/trusty64'
