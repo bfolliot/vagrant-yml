@@ -43,13 +43,13 @@ servers:
       #     - vagrant
       #     - apache
       # ansible:
-      #   inventory_path: "ansible/local"
-      #   playbook: "ansible/site.yml"
-      #   extra_vars:
+      #   :inventory_path: "ansible/local"
+      #   :playbook: "ansible/site.yml"
+      #   :extra_vars:
       #     development: true
       #     uservar: "vagrant"
-      #   limit: "all"
-      #   verbose: "vvv"
+      #   :limit: "all"
+      #   :verbose: "vvv"
   database:
     box: 
       name: 'ubuntu/trusty64'
