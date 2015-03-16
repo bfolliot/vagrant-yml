@@ -25,7 +25,7 @@ end
 # Create servers
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # General settings for hostmanager
-    if vagrantSettings['global']['hostmanager']
+    if vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
         config.hostmanager.enabled           = true
         config.hostmanager.manage_host       = vagrantSettings['global']['hostmanager']['manage_host']
         config.hostmanager.ignore_private_ip = vagrantSettings['global']['hostmanager']['ignore_private_ip']
@@ -107,7 +107,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             end
 
             # Server settings for hostmanager
-            if vagrantSettings['global']['hostmanager']
+            if vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
                 server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
                 server.vm.provision :hostmanager
             end
