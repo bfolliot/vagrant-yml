@@ -35,21 +35,27 @@ servers:
           :create: true
           :type: nfs
     provision:
-      shell:
-        :inline: "echo Hello, World"
-      # fabric:
-      #   :fabfile_path: ./fabfile.py
-      #   :tasks: 
-      #     - vagrant
-      #     - apache
-      # ansible:
-      #   :inventory_path: "ansible/local"
-      #   :playbook: "ansible/site.yml"
-      #   :extra_vars:
-      #     development: true
-      #     uservar: "vagrant"
-      #   :limit: "all"
-      #   :verbose: "vvv"
+      hello:
+        type: 'shell'
+        params:
+          :inline: "echo hello"
+      # withfabric:
+      #   type: 'fabric'
+      #   params:
+      #     :fabfile_path: ./fabfile.py
+      #     :tasks: 
+      #       - vagrant
+      #       - apache
+      # withansible:
+      #   type: 'ansible'
+      #   params:
+      #     :inventory_path: "ansible/local"
+      #     :playbook: "ansible/site.yml"
+      #     :extra_vars:
+      #       development: true
+      #       uservar: "vagrant"
+      #     :limit: "all"
+      #     :verbose: "vvv"
   database:
     box: 
       name: 'ubuntu/trusty64'

@@ -4,7 +4,7 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.0.1                                   #
+# Version : 1.1.0                                   #
 ##################################################### 
 
 
@@ -101,8 +101,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
             # Server settings for provisioning
             if serverSettings['provision']
-                serverSettings['provision'].each do |name, params|
-                    config.vm.provision name, **params
+                serverSettings['provision'].each do |name, provider|
+                    config.vm.provision provider['type'], **provider['params']
                 end
             end
 
