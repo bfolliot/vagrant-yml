@@ -111,6 +111,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
                 server.vm.provision :hostmanager
             end
+
+            # Port Forwarding
+            if serverSettings['port_forward']
+                serverSettings['port_forward'].each do |name|
+                    config.vm.network :forwarded_port, guest: name[1]["guest_port"], host: name[1]["host_port"]
+                end
+            end
         end
     end
 end 

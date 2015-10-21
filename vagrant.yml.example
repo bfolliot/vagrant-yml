@@ -34,6 +34,13 @@ servers:
         params:
           :create: true
           :type: nfs
+    port_forward:
+      forward1:
+        host_port: 8080
+        guest_port: 80
+      forward2:
+        host_port: 8081
+        guest_port: 81
     provision:
       hello:
         type: 'shell'
