@@ -4,7 +4,7 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.1.1                                   #
+# Version : 1.2.0                                   #
 ##################################################### 
 
 
@@ -86,7 +86,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                         else
                             server.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path']
                         end
-                    end                    
+                    end
+                end
+            end
+
+            # Server settings for Port Forwarding
+            if serverSettings['port_forward']
+                serverSettings['port_forward'].each do |name, forwarded_port|
+                    server.vm.network :forwarded_port, guest: forwarded_port["guest_port"], host: forwarded_port["host_port"]
                 end
             end
 
@@ -97,12 +104,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 server.vbguest.auto_reboot = serverSettings['vbguest']['auto_reboot']
             end
 
-
-
             # Server settings for provisioning
             if serverSettings['provision']
                 serverSettings['provision'].each do |name, provider|
-                    config.vm.provision provider['type'], **provider['params']
+                    server.vm.provision provider['type'], **provider['params']
                 end
             end
 
@@ -110,13 +115,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             if vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
                 server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
                 server.vm.provision :hostmanager
-            end
-
-            # Port Forwarding
-            if serverSettings['port_forward']
-                serverSettings['port_forward'].each do |name|
-                    config.vm.network :forwarded_port, guest: name[1]["guest_port"], host: name[1]["host_port"]
-                end
             end
         end
     end
