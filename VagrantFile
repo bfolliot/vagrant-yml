@@ -4,7 +4,7 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.2.0                                   #
+# Version : 1.2.1                                   #
 ##################################################### 
 
 
@@ -104,17 +104,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 server.vbguest.auto_reboot = serverSettings['vbguest']['auto_reboot']
             end
 
+            # Server settings for hostmanager
+            if vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
+                server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
+                server.vm.provision :hostmanager
+            end
+
             # Server settings for provisioning
             if serverSettings['provision']
                 serverSettings['provision'].each do |name, provider|
                     server.vm.provision provider['type'], **provider['params']
                 end
-            end
-
-            # Server settings for hostmanager
-            if vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
-                server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
-                server.vm.provision :hostmanager
             end
         end
     end
