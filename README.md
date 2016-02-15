@@ -8,5 +8,8 @@ You can override your Vagrant config with a vagrant.local.yml file.
 ## Requirements
 
 * [Vagrant](https://www.vagrantup.com/downloads.html) (version >= 1.6)
+
+## Optional plugins
+
 * [VBGuest](https://github.com/dotless-de/vagrant-vbguest)
 * [Hostmanager](https://github.com/smdahlen/vagrant-hostmanager)
