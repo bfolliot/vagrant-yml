@@ -4,8 +4,8 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.3.0                                   #
-##################################################### 
+# Version : 1.3.1                                   #
+#####################################################
 
 
 # Specify Vagrant API version
@@ -14,7 +14,7 @@ CONFIG_FILE             ='vagrant.yml'
 CONFIG_FILE_LOCAL       ='vagrant.local.yml'
 # Require YAML module
 require 'yaml'
- 
+
 # Read YAML file with box details
 vagrantSettings      = YAML.load_file(CONFIG_FILE)
 if Pathname(CONFIG_FILE_LOCAL).exist?
@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.hostmanager.manage_host       = vagrantSettings['global']['hostmanager']['manage_host']
         config.hostmanager.ignore_private_ip = vagrantSettings['global']['hostmanager']['ignore_private_ip']
         config.hostmanager.include_offline   = vagrantSettings['global']['hostmanager']['include_offline']
-    end    
+    end
 
     vagrantSettings['servers'].each do |serverName, serverSettings|
         # Create server
@@ -81,7 +81,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
             # Server settings for synced_folder
             if serverSettings['synced_folders']
-                serverSettings['synced_folders'].each do |name, synced_folder| 
+                serverSettings['synced_folders'].each do |name, synced_folder|
 
                     if name == "vagrant" && !synced_folder
                         server.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
@@ -123,4 +123,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             end
         end
     end
-end 
+end
