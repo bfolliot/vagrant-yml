@@ -4,3 +4,9 @@ This Vagrantfile works with an external data file (a YAML file, named vagrant.ym
 You can view examples in the vagrant.yml.example file
 
 You can override your Vagrant config with a vagrant.local.yml file.
+
+## Requirements
+
+* [Vagrant](https://www.vagrantup.com/downloads.html) (version >= 1.6)
+* [VBGuest](https://github.com/dotless-de/vagrant-vbguest)
+* [Hostmanager](https://github.com/smdahlen/vagrant-hostmanager)
