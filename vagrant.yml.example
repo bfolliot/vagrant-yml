@@ -14,6 +14,8 @@ servers:
       auto_update: false
       no_remote: false
       auto_reboot: true
+    ssh:
+      forward_agent: true
     network:
       private: dhcp # or x.x.x.x
       public: dhcp # or x.x.x.x
