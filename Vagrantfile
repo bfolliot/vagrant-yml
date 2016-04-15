@@ -4,7 +4,7 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.3.3                                   #
+# Version : 1.3.4                                   #
 #####################################################
 
 
