@@ -36,6 +36,7 @@ servers:
         params:
           :create: true
           :type: nfs
+          :mount_options: ['nolock,vers=3,udp,noatime,actimeo=1']
     port_forward:
       forward1:
         host_port: 8080
