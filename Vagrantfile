@@ -17,9 +17,14 @@ require 'yaml'
 
 # Read YAML file with box details
 vagrantRoot          = File.dirname(__FILE__)
+
+if not Pathname(vagrantRoot + "/" + CONFIG_FILE).exist?
+    fail "vagrant.yml not found"
+end
+
 vagrantSettings      = YAML.load_file(vagrantRoot + "/" + CONFIG_FILE)
 
-if Pathname(CONFIG_FILE_LOCAL).exist?
+if Pathname(vagrantRoot + "/" + CONFIG_FILE_LOCAL).exist?
     vagrantSettingsLocal = YAML.load_file(vagrantRoot + "/" + CONFIG_FILE_LOCAL)
     vagrantSettings.deep_merge!(vagrantSettingsLocal)
 end
