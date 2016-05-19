@@ -1,0 +1,44 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Vagrant YAML (vagrant-yml)\n\n\nThis Vagrantfile works with an external data file (a YAML file, named vagrant.yml) to create multiple Vagrant boxes easily. The vagrant.yml file contains all the specifics and can be easily edited to change the number and type of boxes to create.\n\n\nYou can view examples in the vagrant.yml.example file\n\n\nYou can override your Vagrant config with a vagrant.local.yml file.\n\n\nRequirements\n\n\n\n\nVagrant\n (version \n= 1.6)\n\n\n\n\nOptional plugins\n\n\n\n\nVBGuest\n\n\nHostmanager", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#vagrant-yaml-vagrant-yml", 
+            "text": "This Vagrantfile works with an external data file (a YAML file, named vagrant.yml) to create multiple Vagrant boxes easily. The vagrant.yml file contains all the specifics and can be easily edited to change the number and type of boxes to create.  You can view examples in the vagrant.yml.example file  You can override your Vagrant config with a vagrant.local.yml file.", 
+            "title": "Vagrant YAML (vagrant-yml)"
+        }, 
+        {
+            "location": "/#requirements", 
+            "text": "Vagrant  (version  = 1.6)", 
+            "title": "Requirements"
+        }, 
+        {
+            "location": "/#optional-plugins", 
+            "text": "VBGuest  Hostmanager", 
+            "title": "Optional plugins"
+        }, 
+        {
+            "location": "/quick-start/", 
+            "text": "Quick start\n\n\nDownload the last version of the Vagrantfile in your project directory :\n\n\nwget https://raw.githubusercontent.com/bfolliot/vagrant-yml/1.5.0/Vagrantfile\n\n\n\n\nCreate a file in the same directory with the name of \nvagrant.yml\n, if you want, you can use the example file :\n\n\nwget https://raw.githubusercontent.com/bfolliot/vagrant-yml/1.5.0/vagrant.yml.example -O vagrant.yml\n\n\n\n\nNow, you can \npersonalize your configuration", 
+            "title": "Quick Start"
+        }, 
+        {
+            "location": "/quick-start/#quick-start", 
+            "text": "Download the last version of the Vagrantfile in your project directory :  wget https://raw.githubusercontent.com/bfolliot/vagrant-yml/1.5.0/Vagrantfile  Create a file in the same directory with the name of  vagrant.yml , if you want, you can use the example file :  wget https://raw.githubusercontent.com/bfolliot/vagrant-yml/1.5.0/vagrant.yml.example -O vagrant.yml  Now, you can  personalize your configuration", 
+            "title": "Quick start"
+        }, 
+        {
+            "location": "/YAML-configuration/", 
+            "text": "YAML configuration\n\n\nConfiguration can be set in two files :\n\n\n\n\nvagrant.yml\n - Main configuration file\n\n\nvagrant.local.yml\n - Local configuration file (\nOverloading the first)\n\n\n\n\nIf you use \nvagrant.local.yml\n, you should not share it. If you use git, add it to your \n.gitignore\n file\n\n\nYou can find an example of the configuration \nin the repository", 
+            "title": "YAML configuration"
+        }, 
+        {
+            "location": "/YAML-configuration/#yaml-configuration", 
+            "text": "Configuration can be set in two files :   vagrant.yml  - Main configuration file  vagrant.local.yml  - Local configuration file (\nOverloading the first)   If you use  vagrant.local.yml , you should not share it. If you use git, add it to your  .gitignore  file  You can find an example of the configuration  in the repository", 
+            "title": "YAML configuration"
+        }
+    ]
+}
