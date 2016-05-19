@@ -7,7 +7,6 @@
 # Version : 1.4.0                                   #
 #####################################################
 
-
 # Specify Vagrant API version
 VAGRANTFILE_API_VERSION = "2"
 CONFIG_FILE             ='vagrant.yml'
@@ -15,21 +14,23 @@ CONFIG_FILE_LOCAL       ='vagrant.local.yml'
 # Require YAML module
 require 'yaml'
 
+puts "This project use Vagrant YAML (https://github.com/bfolliot/vagrant-yml) in version 1.4.0"
+
 # Read YAML file with box details
-vagrantRoot          = File.dirname(__FILE__)
+vagrantRoot = File.dirname(__FILE__)
 
 if not Pathname(vagrantRoot + "/" + CONFIG_FILE).exist?
     fail "vagrant.yml not found"
 end
 
-vagrantSettings      = YAML.load_file(vagrantRoot + "/" + CONFIG_FILE)
+vagrantSettings = YAML.load_file(vagrantRoot + "/" + CONFIG_FILE)
 
 if Pathname(vagrantRoot + "/" + CONFIG_FILE_LOCAL).exist?
     vagrantSettingsLocal = YAML.load_file(vagrantRoot + "/" + CONFIG_FILE_LOCAL)
     vagrantSettings.deep_merge!(vagrantSettingsLocal)
 end
 
-# Create servers
+# Create environments
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # General settings for hostmanager
     if Vagrant.has_plugin?("vagrant-hostmanager") && vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
@@ -39,45 +40,50 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.hostmanager.include_offline   = vagrantSettings['global']['hostmanager']['include_offline']
     end
 
-    vagrantSettings['servers'].each do |serverName, serverSettings|
-        # Create server
-        config.vm.define serverName do |server|
-            server.vm.box      = serverSettings['box']['name']
-            server.vm.box_url  = serverSettings['box']['url'] if serverSettings['box']['url']
-            server.vm.hostname = serverSettings['hostname']   if serverSettings['hostname']
+    if !vagrantSettings['environments'] && vagrantSettings['servers']
+        warn "[DEPRECATION] `servers` is deprecated.  Please use `environments` instead."
+        vagrantSettings['environments'] = vagrantSettings['servers']
+    end
+
+    vagrantSettings['environments'].each do |environmentName, environmentSettings|
+        # Create environment
+        config.vm.define environmentName do |environment|
+            environment.vm.box      = environmentSettings['box']['name']
+            environment.vm.box_url  = environmentSettings['box']['url'] if environmentSettings['box']['url']
+            environment.vm.hostname = environmentSettings['hostname']   if environmentSettings['hostname']
 
             # Forward SSH agent
-            if serverSettings['ssh'] && serverSettings['ssh']['forward_agent']
-                config.ssh.forward_agent = serverSettings['ssh']['forward_agent']
+            if environmentSettings['ssh'] && environmentSettings['ssh']['forward_agent']
+                config.ssh.forward_agent = environmentSettings['ssh']['forward_agent']
             end
 
             # Server settings for networking
-            if serverSettings['network']
-                if serverSettings['network']['private']
-                    if serverSettings['network']['private'] == 'dhcp'
-                        server.vm.network :private_network, type: "dhcp"
+            if environmentSettings['network']
+                if environmentSettings['network']['private']
+                    if environmentSettings['network']['private'] == 'dhcp'
+                        environment.vm.network :private_network, type: "dhcp"
                     else
-                        server.vm.network :private_network, ip: serverSettings['network']['private']
+                        environment.vm.network :private_network, ip: environmentSettings['network']['private']
                     end
                 end
-                if serverSettings['network']['public']
-                    if serverSettings['network']['public'] == 'dhcp'
-                        server.vm.network :public_network
+                if environmentSettings['network']['public']
+                    if environmentSettings['network']['public'] == 'dhcp'
+                        environment.vm.network :public_network
                     else
-                        server.vm.network :public_network, ip: serverSettings['network']['public']
+                        environment.vm.network :public_network, ip: environmentSettings['network']['public']
                     end
                 end
             end
 
             # Server settings for virtualbox
-            if serverSettings['virtualbox']
-                server.vm.provider :virtualbox do |v|
-                    v.gui    = serverSettings['virtualbox']['gui']    if serverSettings['virtualbox']['gui']
-                    v.name   = serverSettings['virtualbox']['name']   if serverSettings['virtualbox']['name']
-                    v.memory = serverSettings['virtualbox']['memory'] if serverSettings['virtualbox']['memory']
-                    v.cpus   = serverSettings['virtualbox']['cpus']   if serverSettings['virtualbox']['cpus']
-                    if serverSettings['virtualbox']['other']
-                        serverSettings['virtualbox']['other'].each do |type, params|
+            if environmentSettings['virtualbox']
+                environment.vm.provider :virtualbox do |v|
+                    v.gui    = environmentSettings['virtualbox']['gui']    if environmentSettings['virtualbox']['gui']
+                    v.name   = environmentSettings['virtualbox']['name']   if environmentSettings['virtualbox']['name']
+                    v.memory = environmentSettings['virtualbox']['memory'] if environmentSettings['virtualbox']['memory']
+                    v.cpus   = environmentSettings['virtualbox']['cpus']   if environmentSettings['virtualbox']['cpus']
+                    if environmentSettings['virtualbox']['other']
+                        environmentSettings['virtualbox']['other'].each do |type, params|
                             params.each do |key, value|
                                 v.customize [type, :id, key, value ]
                             end
@@ -87,45 +93,45 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             end
 
             # Server settings for synced_folder
-            if serverSettings['synced_folders']
-                serverSettings['synced_folders'].each do |name, synced_folder|
+            if environmentSettings['synced_folders']
+                environmentSettings['synced_folders'].each do |name, synced_folder|
 
                     if name == "vagrant" && !synced_folder
-                        server.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+                        environment.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
                     else
                         if synced_folder['params']
-                            server.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path'], **synced_folder['params']
+                            environment.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path'], **synced_folder['params']
                         else
-                            server.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path']
+                            environment.vm.synced_folder synced_folder['host_path'], synced_folder['guest_path']
                         end
                     end
                 end
             end
 
             # Server settings for Port Forwarding
-            if serverSettings['port_forward']
-                serverSettings['port_forward'].each do |name, forwarded_port|
-                    server.vm.network :forwarded_port, guest: forwarded_port["guest_port"], host: forwarded_port["host_port"]
+            if environmentSettings['port_forward']
+                environmentSettings['port_forward'].each do |name, forwarded_port|
+                    environment.vm.network :forwarded_port, guest: forwarded_port["guest_port"], host: forwarded_port["host_port"]
                 end
             end
 
             # Server settings for vbguest
-            if Vagrant.has_plugin?("vagrant-vbguest") && serverSettings['vbguest']
-                server.vbguest.auto_update = serverSettings['vbguest']['auto_update']
-                server.vbguest.no_remote   = serverSettings['vbguest']['no_remote']
-                server.vbguest.auto_reboot = serverSettings['vbguest']['auto_reboot']
+            if Vagrant.has_plugin?("vagrant-vbguest") && environmentSettings['vbguest']
+                environment.vbguest.auto_update = environmentSettings['vbguest']['auto_update']
+                environment.vbguest.no_remote   = environmentSettings['vbguest']['no_remote']
+                environment.vbguest.auto_reboot = environmentSettings['vbguest']['auto_reboot']
             end
 
             # Server settings for hostmanager
             if Vagrant.has_plugin?("vagrant-hostmanager") && vagrantSettings['global'] && vagrantSettings['global']['hostmanager']
-                server.hostmanager.aliases = serverSettings['aliases'] if serverSettings['aliases']
-                server.vm.provision :hostmanager
+                environment.hostmanager.aliases = environmentSettings['aliases'] if environmentSettings['aliases']
+                environment.vm.provision :hostmanager
             end
 
             # Server settings for provisioning
-            if serverSettings['provision']
-                serverSettings['provision'].each do |name, provider|
-                    server.vm.provision provider['type'], **provider['params']
+            if environmentSettings['provision']
+                environmentSettings['provision'].each do |name, provider|
+                    environment.vm.provision provider['type'], **provider['params']
                 end
             end
         end

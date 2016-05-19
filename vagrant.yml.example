@@ -3,7 +3,7 @@ global:
     manage_host: true
     ignore_private_ip: false
     include_offline: true
-servers:
+environments:
   Web:
     box: 
       name: 'debian/jessie64'

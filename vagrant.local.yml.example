@@ -1,4 +1,4 @@
-servers:
+environments:
   Web:
     virtualbox:
       name: MyWebServerLocal
