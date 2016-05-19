@@ -1,0 +1,9 @@
+site_name: Vagrant YAML
+repo_url: 'https://github.com/bfolliot/vagrant-yml'
+theme: yeti
+site_dir: docs/html
+copyright: 'Vagrant YAML (vagrant-yml)'
+pages:
+    - index.md
+    - "Quick Start": quick-start.md
+    - "YAML configuration": YAML-configuration.md
