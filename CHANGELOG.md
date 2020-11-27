@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-This project follow [semver](Fail if vagrant.yml does not exist) since version 1.3.2
+This project follow [semver](https://semver.org/) since version 1.3.2
+
+## 1.5.1 - 2020-11-27
+
+- FIX : Allow provisioning provider without params (for example, for Docker)
 
 ## 1.5.0 - 2016-05-19
 

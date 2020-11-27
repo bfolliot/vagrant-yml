@@ -4,7 +4,7 @@
 #################### VAGRANT YML ####################
 # Project : https://github.com/bfolliot/vagrant-yml #
 # Author  : Bryan Folliot                           #
-# Version : 1.5.0                                   #
+# Version : 1.5.1                                   #
 #####################################################
 
 # Specify Vagrant API version
@@ -14,7 +14,7 @@ CONFIG_FILE_LOCAL       ='vagrant.local.yml'
 # Require YAML module
 require 'yaml'
 
-puts "This project use Vagrant YAML (https://github.com/bfolliot/vagrant-yml) in version 1.5.0"
+puts "This project use Vagrant YAML (https://github.com/bfolliot/vagrant-yml) in version 1.5.1"
 
 # Read YAML file with box details
 vagrantRoot = File.dirname(__FILE__)
