@@ -131,7 +131,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             # Server settings for provisioning
             if environmentSettings['provision']
                 environmentSettings['provision'].each do |name, provider|
-                    environment.vm.provision provider['type'], **provider['params']
+                    if provider['params']
+                        environment.vm.provision provider['type'], **provider['params']
+                    else
+                        environment.vm.provision provider['type']
+                    end
                 end
             end
         end
